@@ -2,6 +2,8 @@ package com.bitwise.controllers;
 
 import java.net.BindException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,20 +38,21 @@ public class LoginController {
 	
 	@RequestMapping (value = "/login", method = RequestMethod.POST)
 	public String auth(ModelMap model, @ModelAttribute("user") User user, 
-			BindingResult result, HttpSession session) {
+			BindingResult result, HttpSession session,
+			HttpServletRequest request, HttpServletResponse response) {
 		String url = "index";
-		url = handleUserInput(model, user, result, url);
+		url = handleUserInput(model, user, result, url, request, response);
 		return (url);
 	}
 
-	private String handleUserInput(ModelMap model, User user, BindingResult result, String url) {
+	private String handleUserInput(ModelMap model, User user, BindingResult result, String url, HttpServletRequest request, HttpServletResponse response) {
 		UserValidator validator = new UserValidator();
 		validator.validate(user, result);
-		url = authenticateUser(model, user, result, url);
+		url = authenticateUser(model, user, result, url, request, response);
 		return url;
 	}
 
-	private String authenticateUser(ModelMap model, User user, BindingResult result, String url) {
+	private String authenticateUser(ModelMap model, User user, BindingResult result, String url, HttpServletRequest request, HttpServletResponse response) {
 		System.out.println(user.getUsername());
 		System.out.println(user.getPassword());
 		if (result.hasErrors()) {
@@ -57,15 +60,15 @@ public class LoginController {
 			url = "index";
 		} else if (new Users().getUsers().contains(user)) {
 			url = "redirect:/home";
-			startSession(user);
+			startSession(user, request, response);
 		} else {
 			model.addAttribute("error", "invalidUser");
 		}
 		return url;
 	}
 
-	private void startSession(User user) {
-		HttpSession session = null;
+	private void startSession(User user, HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
 		session.setAttribute("username", user.getUsername());
 		session.setAttribute("sessID", session.getId());
 	}
