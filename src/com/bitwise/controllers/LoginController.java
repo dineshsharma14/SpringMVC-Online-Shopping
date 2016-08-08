@@ -2,6 +2,7 @@ package com.bitwise.controllers;
 
 import java.net.BindException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -59,7 +60,7 @@ public class LoginController {
 			model.addAttribute("user", user);
 			url = "index";
 		} else if (new Users().getUsers().contains(user)) {
-			url = "redirect:/home";
+			url = "redirect:/products/home";
 			startSession(user, request, response);
 		} else {
 			model.addAttribute("error", "invalidUser");
@@ -69,8 +70,13 @@ public class LoginController {
 
 	private void startSession(User user, HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession(true);
+		
 		session.setAttribute("username", user.getUsername());
 		session.setAttribute("sessID", session.getId());
+		session.setMaxInactiveInterval(1000);
+		Cookie cookie = new Cookie("sessID", session.getId());
+		cookie.setMaxAge(10000);
+		response.addCookie(cookie);
 	}
 	
 	

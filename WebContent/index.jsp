@@ -7,7 +7,7 @@
 		<div class="col m8">
 			<h2>Student Information</h2>
 
-			<form:form modelAttribute="user" method="POST" action="login">
+			<form:form commandName="user" method="POST" action="login">
 				<table>
 					<tr>
 						<td>

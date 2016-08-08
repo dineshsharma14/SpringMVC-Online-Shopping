@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,6 +43,7 @@ public class AuthFilter implements Filter {
 		String contextPath = req.getContextPath();
 		String redirectUrl = contextPath + "/login";
 		System.out.println(currUri);
+		boolean flag = authUserAgainstCookie(req);
 		
 		if (isLogoutUri(currUri, contextPath)) {
 			if (! isSessionExpired(req)) {
@@ -50,16 +52,38 @@ public class AuthFilter implements Filter {
 				return;
 			}
 		}
-		
+//		
+//		if (! isLoginUrl(currUri, contextPath)) {
+//			if (! isSessionValid(req)) {
+//				res.sendRedirect(redirectUrl);
+//				return;
+//			}
+//		}
 		if (! isLoginUrl(currUri, contextPath)) {
-			System.out.println("not a login path");
-			if (! isSessionValid(req)) {
+			if (! flag) {
 				res.sendRedirect(redirectUrl);
 				return;
 			}
 		}
 		
 		chain.doFilter(req, res);
+	}
+
+	private boolean authUserAgainstCookie(HttpServletRequest req) {
+		boolean flag = false;
+		Cookie [] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (! isSessionExpired(req)) {
+					if (cookie.getValue()
+							.equals(req.getSession(false)
+									.getAttribute("sessID"))) {
+						flag = true;
+					}
+				}
+			}
+		}
+		return flag;
 	}
 
 	private boolean isSessionExpired(HttpServletRequest req) {
