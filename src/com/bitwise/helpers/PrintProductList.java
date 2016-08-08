@@ -35,6 +35,7 @@ public class PrintProductList extends SimpleTagSupport{
 			out.println("Price: " + prod.getProdPrice() + "<br/>");
 			out.println("Product ID: " + prod.getPID() + "<br/>");
 			out.println("Available Stock: " + prod.getStock() + "<br/>");
+			out.println("<a class='btn green' href='add?pid="+prod.getPID()+"' >Add to Cart</a>");
 			out.println("</div>");
 			out.println("</div>");
 			out.println("</div>");

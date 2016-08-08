@@ -2,7 +2,7 @@
 
 <div class="container">
 	<div class="row">
-		
+		<t:printProducts/>
 	</div>
 </div>
 

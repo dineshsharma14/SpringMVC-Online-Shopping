@@ -52,17 +52,16 @@ public class AuthFilter implements Filter {
 				return;
 			}
 		}
-//		
-//		if (! isLoginUrl(currUri, contextPath)) {
-//			if (! isSessionValid(req)) {
-//				res.sendRedirect(redirectUrl);
-//				return;
-//			}
-//		}
 		if (! isLoginUrl(currUri, contextPath)) {
 			if (! flag) {
 				res.sendRedirect(redirectUrl);
 				return;
+			}
+		} 
+		if (isLoginUrl(currUri, contextPath)) {
+			if (flag) {
+				redirectUrl = contextPath + "/products/home";
+				res.sendRedirect(redirectUrl);
 			}
 		}
 		
