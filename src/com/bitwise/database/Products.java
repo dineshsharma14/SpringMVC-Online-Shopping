@@ -6,7 +6,7 @@ import java.util.List;
 import com.bitwise.models.Product;
 
 public class Products {
-	private List<Product> products = new ArrayList<Product>();
+	private static List<Product> products = new ArrayList<Product>();
 	
 	public Products () {
 		this.initProducts();
@@ -29,9 +29,9 @@ public class Products {
 		return this.products;
 	}
 	
-	public Product getProductByProductID (Integer pid) {
+	public Product getProductByProductID (Integer pid, List<Product> products) {
 		Product product = null;
-		for (Product prod: new Products().getList()) {
+		for (Product prod: products) {
 			if (prod.getPID() == pid) {
 				product = prod;
 			}

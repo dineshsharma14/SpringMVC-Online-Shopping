@@ -12,6 +12,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import com.bitwise.database.Products;
+import com.bitwise.exceptions.SessionExpiredException;
 import com.bitwise.models.Product;
 
 public class PrintProductList extends SimpleTagSupport{
@@ -23,8 +24,11 @@ public class PrintProductList extends SimpleTagSupport{
 		HttpServletResponse res = (HttpServletResponse) pageContext.getResponse();
 		JspWriter out = pageContext.getOut();
 		String contextPath = req.getContextPath();
-		List<Product> products = new Products().getList();
-		
+		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
+//		List<Product> products = new Products().getList();
+		if (products == null || products.isEmpty()) {
+			throw new SessionExpiredException();
+		}
 		printProductList(out, contextPath, products);
 		
 	}

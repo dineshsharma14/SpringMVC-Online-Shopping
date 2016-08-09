@@ -13,7 +13,8 @@
 		</div>
 	</div>
 	<div class="row">
-		<t:printProducts/>
+		<%-- <t:printProducts/> --%>
+		${ productsList }
 	</div>
 </div>
 

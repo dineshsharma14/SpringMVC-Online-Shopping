@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.bitwise.database.Products;
 import com.bitwise.database.Users;
 import com.bitwise.helpers.UserValidator;
 import com.bitwise.models.User;;
@@ -23,6 +25,7 @@ public class LoginController {
 		User user = new User ();
 		model.addAttribute("title", "Login");
 		model.addAttribute("user", user);
+		model.addAttribute("login", "true");
 		
 		return ("index");
 	}
@@ -67,6 +70,14 @@ public class LoginController {
 		Cookie cookie = new Cookie("sessID", session.getId());
 		cookie.setMaxAge(10000);
 		response.addCookie(cookie);
+		initStoreItems(request);
+	}
+	
+	private void initStoreItems(HttpServletRequest req) {
+		if (req.getSession(false).getAttribute("products") == null) {
+			Products products = new Products();
+			req.getSession(false).setAttribute("products", products);
+		}
 	}
 	
 	

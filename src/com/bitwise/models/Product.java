@@ -1,5 +1,7 @@
 package com.bitwise.models;
 
+import com.bitwise.exceptions.OutOfStockException;
+
 public class Product {
 	private Integer PID;
 	private String prodName;
@@ -48,6 +50,7 @@ public class Product {
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
+
 	
 	
 }

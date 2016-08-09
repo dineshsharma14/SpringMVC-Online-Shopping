@@ -16,5 +16,10 @@
 		<tag-class>com.bitwise.helpers.PrintCartItems</tag-class>
 		<body-content>empty</body-content>
 	</tag>
+	<tag>
+		<name>printCartOrderTable</name>
+		<tag-class>com.bitwise.helpers.PrintCartProductDetails</tag-class>
+		<body-content>empty</body-content>
+	</tag>
 
 </taglib>

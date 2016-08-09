@@ -50,10 +50,10 @@ public class PrintCartItems extends SimpleTagSupport {
 		for (Product prod : cartItems) {
 
 			sb.append("<li>");
-			sb.append("<div class='list-item-header'>");
+			sb.append("<div class='list-item__header'>");
 			sb.append(prod.getProdName());
 			sb.append("</div>");
-			sb.append("<div class='list-item-body' >");
+			sb.append("<div class='list-item__body' >");
 			sb.append("Price: " + prod.getProdPrice() + "<br/>");
 			sb.append("Supplier: " + prod.getSupplier() + "<br/>");
 			sb.append("Available Stock: " + prod.getStock() + "<br/>");
