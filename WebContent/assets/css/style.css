@@ -1,0 +1,32 @@
+.item-container {
+	padding: 10px;
+	border: 1px solid black;
+}
+.item-header {
+	padding: 5px;
+	font-family: tahoma, sans-serif;
+	font-weight: bolder;
+	font-size: large;
+}
+.item-body {
+	padding: 5px;
+	font-family: sans-serif;
+	font-size: medium;
+}
+
+.product-container {
+	border: 1px solid black;
+	padding: 15px;
+	font-family: tahoma, sans-serif;
+}
+
+.product-container__header {
+	font-weight: bolder;
+	font-size: larger;
+	padding: 5px;
+}
+
+.product-container__body {
+	font-size: medium;
+	padding: 5px;
+}

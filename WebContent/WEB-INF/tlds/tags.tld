@@ -11,5 +11,10 @@
 		<tag-class>com.bitwise.helpers.PrintProductList</tag-class>
 		<body-content>empty</body-content>
 	</tag>
+	<tag>
+		<name>printCartItems</name>
+		<tag-class>com.bitwise.helpers.PrintCartItems</tag-class>
+		<body-content>empty</body-content>
+	</tag>
 
 </taglib>

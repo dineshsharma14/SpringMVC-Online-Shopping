@@ -28,4 +28,14 @@ public class Products {
 	public List<Product> getList () {
 		return this.products;
 	}
+	
+	public Product getProductByProductID (Integer pid) {
+		Product product = null;
+		for (Product prod: new Products().getList()) {
+			if (prod.getPID() == pid) {
+				product = prod;
+			}
+		}
+		return product;
+	}
 }
