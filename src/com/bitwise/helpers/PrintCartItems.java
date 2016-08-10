@@ -2,6 +2,7 @@ package com.bitwise.helpers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,7 +10,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
-
+import com.bitwise.models.Order;
 import com.bitwise.models.Cart;
 import com.bitwise.models.Product;
 
@@ -47,17 +48,20 @@ public class PrintCartItems extends SimpleTagSupport {
 			sb.append("<span class='red-text red'>Cart is Empty</span> ");
 			return;
 		}
-		for (Product prod : cartItems) {
+		
+		Set<Order> orders = Utility.removeDuplicateProducts(cartItems);
+		for (Order prod : orders) {
 
 			sb.append("<li>");
 			sb.append("<div class='list-item__header'>");
-			sb.append(prod.getProdName());
+			sb.append(prod.getProduct().getProdName());
 			sb.append("</div>");
-			sb.append("<div class='list-item__body' >");
-			sb.append("Price: " + prod.getProdPrice() + "<br/>");
-			sb.append("Supplier: " + prod.getSupplier() + "<br/>");
-			sb.append("Available Stock: " + prod.getStock() + "<br/>");
-			sb.append("<a class='btn red' id='removeCartBtn' href='" + contextPath + "/cart/remove?pid=" + prod.getPID()
+			sb.append("<div class='list-item__body' >")
+			.append("<label>Quantity: </label>" + prod.getQuantity() + "<br/>");
+			sb.append("<label>Total Price: </label>" + prod.getPrice() + "<br/>");
+			sb.append("<label>Supplier: </label>" + prod.getProduct().getSupplier() + "<br/>");
+			sb.append("<label>Available Stock: </label>" + prod.getProduct().getStock() + "<br/>");
+			sb.append("<a class='btn red' id='removeCartBtn' href='" + contextPath + "/cart/remove?pid=" + prod.getProduct().getPID()
 					+ "'>Remove</a>");
 			sb.append("</div>");
 			sb.append("</li>");

@@ -29,16 +29,7 @@ public class PrintCartProductDetails extends SimpleTagSupport {
 		StringBuilder sb = new StringBuilder(100);
 		Cart cart = (Cart) req.getSession(false).getAttribute("cart");
 		List<Product> cartItems = cart.getCartItems();
-		Set<Order> orders = new HashSet<Order>();
-		Order order;
-		
-		for (Product prod: cartItems) {
-			
-			int quantity = Collections.frequency(cartItems, prod);
-			double price = prod.getProdPrice()*quantity;
-			order = new Order (prod, quantity, price);
-			orders.add(order);
-		}
+		Set<Order> orders = Utility.removeDuplicateProducts(cartItems);
 		
 		
 		

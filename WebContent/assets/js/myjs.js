@@ -23,7 +23,8 @@ $(document).ready(function () {
 				console.log(data);
 			},
 			error: function (xhr, status, msg) {
-				console.log (xhr.responseText);
+//				console.log (xhr.responseText);
+				Materialize.toast("Product Out Of Stock. Stop Clicking....", 5000);
 			}
 		});
 	});
