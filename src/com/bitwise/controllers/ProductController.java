@@ -63,9 +63,8 @@ public class ProductController {
 	@RequestMapping (value = "/single", method = RequestMethod.GET)
 	public ModelAndView singleProduct (ModelMap model, HttpServletRequest request,
 			HttpServletResponse response, @RequestParam("pid") Integer pid) {
-		Products prods = (Products) request.getSession(false).getAttribute("products");
-		List<Product> products = prods.getList();
-		Product product = prods.getProductByProductID(pid, products);
+		List<Product> products = this.products.getList();
+		Product product = this.products.getProductByProductID(pid, products);
 
 		model.addAttribute("prodName", product.getProdName());
 		model.addAttribute("prodPrice", product.getProdPrice());

@@ -32,7 +32,9 @@ public class CartController {
 
 	@RequestMapping (value = "/display", method = RequestMethod.GET)
 	public ModelAndView displayCart (ModelMap model, HttpSession session) {
-		if ( ( (Cart)session.getAttribute("cart")).getCartItems().isEmpty()  ) {
+		boolean isCartEmpty = ((Cart)session.getAttribute("cart")).getCartItems().isEmpty();
+		boolean isCartNull = (Cart)session.getAttribute("cart") == null;
+		if (isCartNull || isCartEmpty) {
 			return new ModelAndView("redirect:/products/home");
 		}
 		model.addAttribute("title", "Cart");
