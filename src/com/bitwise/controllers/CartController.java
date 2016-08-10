@@ -88,11 +88,21 @@ public class CartController {
 		if (req.getSession(false).getAttribute("cart") != null ) {
 			Cart cart = (Cart) req.getSession(false).getAttribute("cart");
 			Product product = Utility.getItemFromGivenListByProductID(pid, products);
+			incrementStoreProduct(req, pid);
 			cart.removeItem(Utility.getItemFromGivenListByProductID(pid, products));
 			req.getSession(false).setAttribute("cart", cart);
 			return cart.getCartSize();
 		}
 		return 0;
+	}
+
+	public void incrementStoreProduct(HttpServletRequest req, Integer pid) {
+		Products products = (Products) req.getSession(false).getAttribute("products");
+		List<Product> storeProducts = products.getList();
+		Product storeProduct = Utility.getItemFromGivenListByProductID(pid, storeProducts);
+		if (storeProduct.getStock() <= 10) 
+			storeProduct.setStock(storeProduct.getStock() + 1);
+		req.getSession(false).setAttribute("products", products);
 	}
 	
 	
