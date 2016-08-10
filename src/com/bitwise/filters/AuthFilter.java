@@ -76,10 +76,6 @@ public class AuthFilter implements Filter {
 		return currUri.equals(contextPath + "/login");
 	}
 
-	private boolean isSessionValid(HttpServletRequest req) {
-		return req.getSession(false).getAttribute("username") != null;
-	}
-
 	private boolean isLogoutUri(String currUri, String contextPath) {
 		return currUri.equals(contextPath + "/logout");
 	}

@@ -39,10 +39,11 @@ $(document).ready(function () {
 			url: url,
 			type: "GET",
 			success: function (data) {
-				$cart.html(data);
-				Materialize.toast('Item removed from the cart', 4000);
-				parentList.remove();
-				console.log(data);
+//				$cart.html(data);
+//				Materialize.toast('Item removed from the cart', 4000);
+//				parentList.remove();
+//				console.log(data);
+				location.reload();
 			},
 			error: function (xhr, status, msg) {
 				console.log (xhr.responseText);

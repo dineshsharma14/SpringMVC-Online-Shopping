@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.catalina.connector.Request;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,15 @@ import com.bitwise.models.Product;
 @Controller
 @RequestMapping ("/cart")
 public class CartController {
+
+	@RequestMapping (value = "/display", method = RequestMethod.GET)
+	public ModelAndView displayCart (ModelMap model, HttpSession session) {
+		if ( ( (Cart)session.getAttribute("cart")).getCartItems().isEmpty()  ) {
+			return new ModelAndView("redirect:/products/home");
+		}
+		model.addAttribute("title", "Cart");
+		return new ModelAndView("display", model);
+	}
 	
 	@RequestMapping (value = "/add", method = RequestMethod.GET)
 	public @ResponseBody String addItem (ModelMap model, 
@@ -41,7 +51,8 @@ public class CartController {
 	public @ResponseBody String removeItem (ModelMap model, 
 			HttpServletRequest req, HttpServletResponse res,
 			@RequestParam Integer pid) {
-		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
+//		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
+		List<Product> products = ((Cart)req.getSession(false).getAttribute("cart")).getCartItems();
 		int cartSize = removeItemFromCartByProductID(req, pid, products);
 		String response = ""+cartSize;
 		return response;
@@ -59,6 +70,8 @@ public class CartController {
 			HttpSession session, HttpServletRequest req) {
 		session = req.getSession(false);
 		Cart cart = (Cart)session.getAttribute("cart");
+		if (cart.getCartItems().isEmpty())
+			return "redirect:/products/home";
 		double total = cart.calculateTotalPrice();
 		List<Product> cartItems = cart.getCartItems();
 		model.addAttribute("title", "Order");
@@ -71,6 +84,7 @@ public class CartController {
 	private int removeItemFromCartByProductID(HttpServletRequest req, Integer pid, List<Product> products) {
 		if (req.getSession(false).getAttribute("cart") != null ) {
 			Cart cart = (Cart) req.getSession(false).getAttribute("cart");
+			Product product = Utility.getItemFromGivenListByProductID(pid, products);
 			cart.removeItem(Utility.getItemFromGivenListByProductID(pid, products));
 			req.getSession(false).setAttribute("cart", cart);
 			return cart.getCartSize();
@@ -78,11 +92,6 @@ public class CartController {
 		return 0;
 	}
 	
-	@RequestMapping (value = "/display", method = RequestMethod.GET)
-	public ModelAndView displayCart (ModelMap model) {
-		model.addAttribute("title", "Cart");
-		return new ModelAndView("display", model);
-	}
 	
 //	public ModelAndView order(ModelMap model) {
 //		model.addAttribute("title", "Place Order");
@@ -111,7 +120,7 @@ public class CartController {
 		Product prod = products.getProductByProductID(pid, products.getList());
 		System.out.println(prod.getStock()); // 10 // 9
 		if ( (prod.getStock() - 1) < 0) {
-			throw new OutOfStockException();
+			throw new OutOfStockException("Product Is Out Of Stock");
 		}
 		prod.setStock(prod.getStock() - 1); // 9 // 8
 		System.out.println(prod.getStock()); // 9 // 8

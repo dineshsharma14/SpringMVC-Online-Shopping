@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col m2"></div>
 		<div class="col m8">
-			<h2>Student Information</h2>
+			<h2>User Login</h2>
 
 			<form:form commandName="user" method="POST" action="login">
 				<table>

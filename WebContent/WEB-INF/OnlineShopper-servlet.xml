@@ -21,6 +21,9 @@
    </bean>
    
    <bean class="com.bitwise.models.User" name="user" />
+   <bean class="com.bitwise.database.Products" name="products" scope="prototype"/>
+   <bean class="com.bitwise.models.Cart" name="cart" scope="session" />
+   
 
 	
 	

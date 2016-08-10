@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,9 @@ import com.bitwise.models.User;;
 
 @Controller
 public class LoginController {
-		
+	@Autowired
+	private Products products;
+	
 	@RequestMapping (value = "/login", method = RequestMethod.GET)
 	public String displayLogin (ModelMap model) {
 		User user = new User ();
@@ -35,18 +38,18 @@ public class LoginController {
 			BindingResult result, HttpSession session,
 			HttpServletRequest request, HttpServletResponse response) {
 		String url = "index";
-		url = handleUserInput(model, user, result, url, request, response);
+		url = handleUserInput(model, user, result, url, request, response, session);
 		return (url);
 	}
 
-	private String handleUserInput(ModelMap model, User user, BindingResult result, String url, HttpServletRequest request, HttpServletResponse response) {
+	private String handleUserInput(ModelMap model, User user, BindingResult result, String url, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		UserValidator validator = new UserValidator();
 		validator.validate(user, result);
-		url = authenticateUser(model, user, result, url, request, response);
+		url = authenticateUser(model, user, result, url, request, response, session);
 		return url;
 	}
 
-	private String authenticateUser(ModelMap model, User user, BindingResult result, String url, HttpServletRequest request, HttpServletResponse response) {
+	private String authenticateUser(ModelMap model, User user, BindingResult result, String url, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		System.out.println(user.getUsername());
 		System.out.println(user.getPassword());
 		if (result.hasErrors()) {
@@ -54,30 +57,30 @@ public class LoginController {
 			url = "index";
 		} else if (new Users().getUsers().contains(user)) {
 			url = "redirect:/products/home";
-			startSession(user, request, response);
+			startSession(user, request, response, session);
 		} else {
 			model.addAttribute("error", "invalidUser");
 		}
 		return url;
 	}
 
-	private void startSession(User user, HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession(true);
-		
+	private void startSession(User user, HttpServletRequest request, HttpServletResponse response, HttpSession session) {			
 		session.setAttribute("username", user.getUsername());
 		session.setAttribute("sessID", session.getId());
 		session.setMaxInactiveInterval(1000);
 		Cookie cookie = new Cookie("sessID", session.getId());
 		cookie.setMaxAge(10000);
 		response.addCookie(cookie);
-		initStoreItems(request);
+		initStoreItems(request, session);
 	}
 	
-	private void initStoreItems(HttpServletRequest req) {
-		if (req.getSession(false).getAttribute("products") == null) {
-			Products products = new Products();
-			req.getSession(false).setAttribute("products", products);
+	private void initStoreItems(HttpServletRequest req, HttpSession session) {
+		if (req.getSession(false).getAttribute("products") == null
+				&& products == null) {
+			System.out.println("creating new product");
+			products = new Products();
 		}
+		session.setAttribute("products", products);
 	}
 	
 	
