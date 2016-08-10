@@ -21,6 +21,8 @@ $(document).ready(function () {
 				if (data == '' || data == null) {
 					alert("Session Expired!");
 					location.reload();
+					Materialize.toast("Session Expired", 4000);
+					return;
 				}
 				$cart.html(data);
 				Materialize.toast('Item added to the cart', 4000);
