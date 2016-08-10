@@ -37,6 +37,7 @@ public class PrintCartProductDetails extends SimpleTagSupport {
 			sb.append("<tr>")
 			.append("<td>").append(prod.getProduct().getPID()).append("</td>")
 			.append("<td>").append(prod.getProduct().getProdName()).append("</td>")
+			.append("<td>").append(prod.getProduct().getProdPrice()).append("</td>")
 			.append("<td>").append(prod.getQuantity()).append("</td>")
 			.append("<td>").append(prod.getPrice()).append("</td>")
 			.append("</tr>");

@@ -9,8 +9,9 @@
 				<tr>
 					<th>Product ID</th>
 					<th>Product Name</th>
-					<th>Product Quantity</th>
 					<th>Product Price</th>
+					<th>Product Quantity</th>
+					<th>Product Total Price</th>
 				</tr>
 				<t:printCartOrderTable/>
 				<tr>
