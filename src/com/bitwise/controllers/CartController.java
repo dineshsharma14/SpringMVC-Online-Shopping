@@ -31,7 +31,8 @@ public class CartController {
 			HttpServletRequest req, HttpServletResponse res,
 			@RequestParam Integer pid) {
 		
-		int cartSize = addItemToCart(req, pid);
+		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
+		int cartSize = addItemToCart(req, pid, products);
 		String response = ""+cartSize;
 		return response;
 	}
@@ -40,7 +41,8 @@ public class CartController {
 	public @ResponseBody String removeItem (ModelMap model, 
 			HttpServletRequest req, HttpServletResponse res,
 			@RequestParam Integer pid) {
-		int cartSize = removeItemFromCartByProductID(req, pid);
+		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
+		int cartSize = removeItemFromCartByProductID(req, pid, products);
 		String response = ""+cartSize;
 		return response;
 	}
@@ -48,7 +50,7 @@ public class CartController {
 	@RequestMapping (value = "/size", method = RequestMethod.GET)
 	public @ResponseBody String cartSize(HttpServletRequest req, HttpServletResponse res) {
 		Cart cart = (Cart)req.getSession(false).getAttribute("cart");
-		String cartSize = "" + cart.getCartSize();
+		String cartSize = cart == null ? ""+0 : "" + cart.getCartSize();
 		return cartSize;
 	}
 	
@@ -66,10 +68,10 @@ public class CartController {
 		return "order";
 	}
  
-	private int removeItemFromCartByProductID(HttpServletRequest req, Integer pid) {
+	private int removeItemFromCartByProductID(HttpServletRequest req, Integer pid, List<Product> products) {
 		if (req.getSession(false).getAttribute("cart") != null ) {
 			Cart cart = (Cart) req.getSession(false).getAttribute("cart");
-			cart.removeItem(pid);
+			cart.removeItem(Utility.getItemFromGivenListByProductID(pid, products));
 			req.getSession(false).setAttribute("cart", cart);
 			return cart.getCartSize();
 		}
@@ -86,17 +88,17 @@ public class CartController {
 //		model.addAttribute("title", "Place Order");
 //	}
 
-	private int addItemToCart(HttpServletRequest req, Integer pid) {
+	private int addItemToCart(HttpServletRequest req, Integer pid, List<Product> products) {
 		if (req.getSession(false).getAttribute("cart") == null) {
 			Cart cart = new Cart();
 			sellStoreItem(req, pid);
-			cart.addItem(pid);
+			cart.addItem(Utility.getItemFromGivenListByProductID(pid, products));
 			req.getSession(false).setAttribute("cart", cart);
 			return 1;
 		} else {
 			Cart cart = (Cart) req.getSession(false).getAttribute("cart");
 			sellStoreItem(req, pid);
-			cart.addItem(pid);
+			cart.addItem(Utility.getItemFromGivenListByProductID(pid, products));
 			req.getSession(false).setAttribute("cart", cart);
 			return cart.getCartSize();
 		}

@@ -2,16 +2,15 @@ package com.bitwise.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.bitwise.models.Product;
 
 import com.bitwise.database.Products;
-import com.bitwise.exceptions.CartIsFullException;
 
 public class Cart {
 	private List<Product> cartItems = new ArrayList<Product>();
 //	private final List<Product> products = new Products().getList();
 	
-	public void addItem (Integer pid) {
-		Product product = getProductFromListByProductID(pid);		 
+	public void addItem (Product product) { 
 		cartItems.add(product);
 	}
 
@@ -19,8 +18,7 @@ public class Cart {
 		return (stock - 1) < 0;
 	}
 	
-	public void removeItem (Integer pid) {
-		Product product = getProductFromListByProductID(pid);
+	public void removeItem (Product product) {
 		cartItems.remove(product);
 	}
 	
@@ -30,16 +28,6 @@ public class Cart {
 
 	public List<Product> getCartItems() {
 		return cartItems;
-	}
-
-	public Product getProductFromListByProductID(Integer pid) {
-		Product product = null;
-		for (Product prod: products) {
-			if (prod.getPID() == pid) {
-				product = prod;
-			}
-		}
-		return product;
 	}
 	
 	public double calculateTotalPrice () {

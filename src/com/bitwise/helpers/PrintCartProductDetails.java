@@ -1,7 +1,10 @@
 package com.bitwise.helpers;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +14,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.SimpleTagSupport;
 
 import com.bitwise.models.Cart;
+import com.bitwise.models.Order;
 import com.bitwise.models.Product;
 
 public class PrintCartProductDetails extends SimpleTagSupport {
@@ -25,13 +29,25 @@ public class PrintCartProductDetails extends SimpleTagSupport {
 		StringBuilder sb = new StringBuilder(100);
 		Cart cart = (Cart) req.getSession(false).getAttribute("cart");
 		List<Product> cartItems = cart.getCartItems();
+		Set<Order> orders = new HashSet<Order>();
+		Order order;
 		
 		for (Product prod: cartItems) {
+			
+			int quantity = Collections.frequency(cartItems, prod);
+			double price = prod.getProdPrice()*quantity;
+			order = new Order (prod, quantity, price);
+			orders.add(order);
+		}
+		
+		
+		
+		for (Order prod: orders) {
 			sb.append("<tr>")
-			.append("<td>").append(prod.getPID()).append("</td>")
-			.append("<td>").append(prod.getProdName()).append("</td>")
-			.append("<td>").append("</td>")
-			.append("<td>").append(prod.getProdPrice()).append("</td>")
+			.append("<td>").append(prod.getProduct().getPID()).append("</td>")
+			.append("<td>").append(prod.getProduct().getProdName()).append("</td>")
+			.append("<td>").append(prod.getQuantity()).append("</td>")
+			.append("<td>").append(prod.getPrice()).append("</td>")
 			.append("</tr>");
 		}
 		
