@@ -60,7 +60,6 @@ public class PrintCartItems extends SimpleTagSupport {
 			.append("<label>Quantity: </label>" + prod.getQuantity() + "<br/>");
 			sb.append("<label>Total Price: </label>" + prod.getPrice() + "<br/>");
 			sb.append("<label>Supplier: </label>" + prod.getProduct().getSupplier() + "<br/>");
-			sb.append("<label>Available Stock: </label>" + prod.getProduct().getStock() + "<br/>");
 			sb.append("<a class='btn red' id='removeCartBtn' href='" + contextPath + "/cart/remove?pid=" + prod.getProduct().getPID()
 					+ "'>Remove</a>");
 			sb.append("</div>");

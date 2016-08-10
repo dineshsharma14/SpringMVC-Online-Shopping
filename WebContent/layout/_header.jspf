@@ -32,8 +32,8 @@
 			<div class="nav-wrapper">
 				<a href="${contextPath }/products/home" class="brand-logo">VSLALA</a>
 				<ul id="nav-mobile" class="right hide-on-med-and-down">
-					<li><a href="${ contextPath }/products/home">Products</a></li>
-					<li><a href="${ contextPath }/cart/display">Cart</a></li>
+					<li class="${ homeActive }"><a href="${ contextPath }/products/home">Products</a></li>
+					<li class="${ cartActive }"><a href="${ contextPath }/cart/display">Cart</a></li>
 					<li><a href="${ contextPath }/logout">Logout</a></li>
 				</ul>
 			</div>

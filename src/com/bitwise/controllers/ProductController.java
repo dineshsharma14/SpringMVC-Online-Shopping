@@ -23,6 +23,7 @@ public class ProductController {
 	public ModelAndView displayProducts (ModelMap model, HttpServletRequest request,
 			HttpServletResponse response) {
 		model.addAttribute("title", "Products");
+		model.addAttribute("homeActive", "active");
 		StringBuilder sb = productsList(request);
 		model.addAttribute("productsList", sb.toString());
 		return new ModelAndView("home", model);

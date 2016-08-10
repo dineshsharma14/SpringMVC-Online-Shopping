@@ -33,6 +33,7 @@ public class CartController {
 			return new ModelAndView("redirect:/products/home");
 		}
 		model.addAttribute("title", "Cart");
+		model.addAttribute("cartActive", "active");
 		return new ModelAndView("display", model);
 	}
 	
