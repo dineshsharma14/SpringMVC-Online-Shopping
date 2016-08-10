@@ -20,8 +20,8 @@ import com.bitwise.models.User;;
 
 @Controller
 public class LoginController {
-	@Autowired
-	private Products products;
+//	@Autowired
+//	private Products products;
 	
 	@RequestMapping (value = "/login", method = RequestMethod.GET)
 	public String displayLogin (ModelMap model) {
@@ -75,12 +75,12 @@ public class LoginController {
 	}
 	
 	private void initStoreItems(HttpServletRequest req, HttpSession session) {
-		if (req.getSession(false).getAttribute("products") == null
+		/*if (req.getSession(false).getAttribute("products") == null
 				&& products == null) {
 			System.out.println("creating new product");
 			products = new Products();
 		}
-		session.setAttribute("products", products);
+		session.setAttribute("products", products);*/
 	}
 	
 	

@@ -26,6 +26,9 @@ import com.bitwise.models.Product;
 @Controller
 @RequestMapping ("/cart")
 public class CartController {
+	
+	@Autowired
+	Products products;
 
 	@RequestMapping (value = "/display", method = RequestMethod.GET)
 	public ModelAndView displayCart (ModelMap model, HttpSession session) {
@@ -42,8 +45,8 @@ public class CartController {
 			HttpServletRequest req, HttpServletResponse res,
 			@RequestParam Integer pid) {
 		
-		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
-		int cartSize = addItemToCart(req, pid, products);
+//		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
+		int cartSize = addItemToCart(req, pid, this.products.getList());
 		String response = ""+cartSize;
 		return response;
 	}
@@ -130,8 +133,8 @@ public class CartController {
 	private void sellStoreItem(HttpServletRequest req, Integer pid) {
 		System.out.println("IN");
 		HttpSession session = req.getSession(false);
-		Products products = (Products)session.getAttribute("products");
-		Product prod = products.getProductByProductID(pid, products.getList());
+//		Products products = (Products)session.getAttribute("products");
+		Product prod = products.getProductByProductID(pid, this.products.getList());
 		System.out.println(prod.getStock()); // 10 // 9
 		if ( (prod.getStock() - 1) < 0) {
 			throw new OutOfStockException("Product Is Out Of Stock");

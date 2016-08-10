@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,9 @@ import com.bitwise.models.Product;
 @RequestMapping ("/products")
 public class ProductController {
 	
+	@Autowired
+	Products products;
+	
 	@RequestMapping (value = "/home", method = RequestMethod.GET)
 	public ModelAndView displayProducts (ModelMap model, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -30,10 +34,11 @@ public class ProductController {
 	}
 
 	private StringBuilder productsList(HttpServletRequest request) {
-		List<Product> products = ((Products) request.getSession(false).getAttribute("products")).getList();
+//		List<Product> products = ((Products) request.getSession(false).getAttribute("products")).getList();
 		StringBuilder sb = new StringBuilder(100);
 		String contextPath = request.getContextPath();
-		for (Product prod: products) {
+//		for (Product prod: products) {
+		for (Product prod: products.getList()) {
 			sb.append("<div class='col m4'>")
 			.append("<div class='item-container'>")
 			.append("<div class='item-header' >")

@@ -21,7 +21,94 @@
    </bean>
    
    <bean class="com.bitwise.models.User" name="user" />
-   <bean class="com.bitwise.database.Products" name="products" scope="prototype"/>
+   <bean class="com.bitwise.database.Products" name="products" scope="singleton">
+   		<property name="products">
+   			<list>
+   				<ref bean="product1"/>
+   				<ref bean="product2"/>
+   				<ref bean="product3"/>
+   				<ref bean="product4"/>
+   				<ref bean="product5"/>
+   				<ref bean="product6"/>
+   				<ref bean="product7"/>
+   				<ref bean="product8"/>
+   				<ref bean="product9"/>
+   				<ref bean="product10"/>
+   			</list>
+   		</property>			
+   </bean>
+   
+   <bean class="com.bitwise.models.Product" name="product1">
+   		<property name="PID" value="1"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product2">
+   		<property name="PID" value="2"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product3">
+   		<property name="PID" value="3"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product4">
+   		<property name="PID" value="4"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product5">
+   		<property name="PID" value="5"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product6">
+   		<property name="PID" value="6"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product7">
+   		<property name="PID" value="7"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product8">
+   		<property name="PID" value="8"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product9">
+   		<property name="PID" value="9"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   <bean class="com.bitwise.models.Product" name="product10">
+   		<property name="PID" value="10"></property>
+   		<property name="prodName" value="Army Knife"></property>
+   		<property name="prodPrice" value="1123.00"></property>
+   		<property name="supplier" value="Roxane"></property>
+   		<property name="stock" value="10"></property>
+   </bean>
+   
    
 
 	
