@@ -61,8 +61,10 @@ public class CartController {
 	
 	@RequestMapping (value = "/size", method = RequestMethod.GET)
 	public @ResponseBody String cartSize(HttpServletRequest req, HttpServletResponse res) {
+		System.out.println("Cart Size Method");
 		Cart cart = (Cart)req.getSession(false).getAttribute("cart");
-		String cartSize = cart == null ? ""+0 : "" + cart.getCartSize();
+		String cartSize = (cart == null) ? ""+0 : "" + cart.getCartSize();
+		System.out.println(cartSize);
 		return cartSize;
 	}
 	
@@ -100,6 +102,7 @@ public class CartController {
 
 	private int addItemToCart(HttpServletRequest req, Integer pid, List<Product> products) {
 		if (req.getSession(false).getAttribute("cart") == null) {
+			System.out.println("Cart Instantiated");
 			Cart cart = new Cart();
 			sellStoreItem(req, pid);
 			cart.addItem(Utility.getItemFromGivenListByProductID(pid, products));

@@ -27,6 +27,8 @@ public class AuthFilter implements Filter {
 		String redirectUrl = contextPath + "/login";
 		System.out.println(currUri);
 		boolean flag = authUserAgainstCookie(req);
+		boolean ajax = "XMLHttpRequest".equals(
+                req.getHeader("X-Requested-With"));
 		
 		if (isLogoutUri(currUri, contextPath)) {
 			if (! isSessionExpired(req)) {
@@ -37,6 +39,8 @@ public class AuthFilter implements Filter {
 		}
 		if (! isLoginUrl(currUri, contextPath)) {
 			if (! flag) {
+				if (ajax) 
+					return ;
 				res.sendRedirect(redirectUrl);
 				return;
 			}

@@ -18,6 +18,10 @@ $(document).ready(function () {
 			url: url,
 			type: "GET",
 			success: function (data) {
+				if (data == '' || data == null) {
+					alert("Session Expired!");
+					location.reload();
+				}
 				$cart.html(data);
 				Materialize.toast('Item added to the cart', 4000);
 				console.log(data);
