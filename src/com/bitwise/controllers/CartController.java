@@ -46,12 +46,12 @@ public class CartController {
 	}
 	
 	@RequestMapping (value = "/add", method = RequestMethod.GET)
-	public @ResponseBody String addItem (ModelMap model, 
+	public @ResponseBody String addItem (ModelMap model, HttpSession session,
 			HttpServletRequest req, HttpServletResponse res,
 			@RequestParam Integer pid) {
 		
 //		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
-		int cartSize = addItemToCart(req, pid, this.products.getList());
+		int cartSize = addItemToCart(session, req, pid, this.products.getList());
 		String response = ""+cartSize;
 		return response;
 	}
@@ -120,7 +120,7 @@ public class CartController {
 //		model.addAttribute("title", "Place Order");
 //	}
 
-	private int addItemToCart(HttpServletRequest req, Integer pid, List<Product> products) {
+	private int addItemToCart(HttpSession session, HttpServletRequest req, Integer pid, List<Product> products) {
 		/*if (req.getSession(false).getAttribute("cart") == null) {
 			System.out.println("Cart Instantiated");
 			Cart cart = new Cart();
@@ -135,15 +135,14 @@ public class CartController {
 			req.getSession(false).setAttribute("cart", cart);
 			return cart.getCartSize();
 		}*/
-		sellStoreItem(req, pid);
+		sellStoreItem(session, req, pid);
 		cart.addItem(Utility.getItemFromGivenListByProductID(pid, products));
-		req.getSession(false).setAttribute("cart", cart);
+		session.setAttribute("cart", cart);
 		return cart.getCartSize();
 	}
 
-	private void sellStoreItem(HttpServletRequest req, Integer pid) {
+	private void sellStoreItem(HttpSession session, HttpServletRequest req, Integer pid) {
 		System.out.println("IN");
-		HttpSession session = req.getSession(false);
 //		Products products = (Products)session.getAttribute("products");
 		Product prod = products.getProductByProductID(pid, this.products.getList());
 		System.out.println(prod.getStock()); // 10 // 9
@@ -153,9 +152,5 @@ public class CartController {
 		prod.setStock(prod.getStock() - 1); // 9 // 8
 		System.out.println(prod.getStock()); // 9 // 8
 		req.getSession(false).setAttribute("products", products);
-	}
-
-	private void deductStock(HttpServletRequest req, Products products, Product prod) {
-		
 	}
 }
