@@ -71,7 +71,7 @@ public class LoginController {
 		Cookie cookie = new Cookie("sessID", session.getId());
 		cookie.setMaxAge(10000);
 		response.addCookie(cookie);
-		initStoreItems(request, session);
+//		initStoreItems(request, session);
 	}
 	
 	private void initStoreItems(HttpServletRequest req, HttpSession session) {

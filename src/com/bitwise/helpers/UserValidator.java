@@ -20,10 +20,13 @@ public class UserValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "errors.username", "Username is required");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "errors.password", "Password is required");
 		
-		boolean isNotValidLength = user.getUsername().length() < 3;
-		if (isNotValidLength)
-			errors.rejectValue("username", "insufficient", "Username must be atleast 3 chars long");
-		String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+		if(!user.getUsername().equals("")){
+			boolean isNotValidLength = user.getUsername().length() < 3;
+			if (isNotValidLength)
+				errors.rejectValue("username", "insufficient", "Username must be atleast 3 chars long");
+			
+		}
+			String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 		boolean isValidPassword = user.getPassword().matches(regex);
 		
 		String errorMessage = "At least 8 chars\n"+
