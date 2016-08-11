@@ -109,4 +109,5 @@
    		<property name="stock" value="10"></property>
    </bean>
    
+   <bean class="com.bitwise.models.Cart" name="cart" />
 </beans>

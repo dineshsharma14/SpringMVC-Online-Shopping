@@ -29,6 +29,9 @@ public class CartController {
 	
 	@Autowired
 	Products products;
+	
+	@Autowired
+	Cart cart;
 
 	@RequestMapping (value = "/display", method = RequestMethod.GET)
 	public ModelAndView displayCart (ModelMap model, HttpSession session) {
@@ -58,7 +61,8 @@ public class CartController {
 			HttpServletRequest req, HttpServletResponse res,
 			@RequestParam Integer pid) {
 //		List<Product> products = ((Products)req.getSession(false).getAttribute("products")).getList();
-		List<Product> products = ((Cart)req.getSession(false).getAttribute("cart")).getCartItems();
+//		List<Product> products = ((Cart)req.getSession(false).getAttribute("cart")).getCartItems();
+		List<Product> products = this.cart.getCartItems();
 		int cartSize = removeItemFromCartByProductID(req, pid, products);
 		String response = ""+cartSize;
 		return response;
@@ -67,8 +71,8 @@ public class CartController {
 	@RequestMapping (value = "/size", method = RequestMethod.GET)
 	public @ResponseBody String cartSize(HttpServletRequest req, HttpServletResponse res) {
 		System.out.println("Cart Size Method");
-		Cart cart = (Cart)req.getSession(false).getAttribute("cart");
-		String cartSize = (cart == null) ? ""+0 : "" + cart.getCartSize();
+//		Cart cart = (Cart)req.getSession(false).getAttribute("cart");
+		String cartSize = (cart == null) ? ""+0 : "" + this.cart.getCartSize();
 		System.out.println(cartSize);
 		return cartSize;
 	}
@@ -90,13 +94,14 @@ public class CartController {
 	}
  
 	private int removeItemFromCartByProductID(HttpServletRequest req, Integer pid, List<Product> products) {
-		if (req.getSession(false).getAttribute("cart") != null ) {
-			Cart cart = (Cart) req.getSession(false).getAttribute("cart");
+//		if (req.getSession(false).getAttribute("cart") != null ) {
+		if (this.cart != null ) {
+//			Cart cart = (Cart) req.getSession(false).getAttribute("cart");
 			Product product = Utility.getItemFromGivenListByProductID(pid, products);
 			incrementStoreProduct(req, pid);
-			cart.removeItem(Utility.getItemFromGivenListByProductID(pid, products));
-			req.getSession(false).setAttribute("cart", cart);
-			return cart.getCartSize();
+			this.cart.removeItem(Utility.getItemFromGivenListByProductID(pid, products));
+//			req.getSession(false).setAttribute("cart", cart);
+			return this.cart.getCartSize();
 		}
 		return 0;
 	}
@@ -116,7 +121,7 @@ public class CartController {
 //	}
 
 	private int addItemToCart(HttpServletRequest req, Integer pid, List<Product> products) {
-		if (req.getSession(false).getAttribute("cart") == null) {
+		/*if (req.getSession(false).getAttribute("cart") == null) {
 			System.out.println("Cart Instantiated");
 			Cart cart = new Cart();
 			sellStoreItem(req, pid);
@@ -129,7 +134,11 @@ public class CartController {
 			cart.addItem(Utility.getItemFromGivenListByProductID(pid, products));
 			req.getSession(false).setAttribute("cart", cart);
 			return cart.getCartSize();
-		}
+		}*/
+		sellStoreItem(req, pid);
+		cart.addItem(Utility.getItemFromGivenListByProductID(pid, products));
+		req.getSession(false).setAttribute("cart", cart);
+		return cart.getCartSize();
 	}
 
 	private void sellStoreItem(HttpServletRequest req, Integer pid) {
